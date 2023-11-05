@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Upload de Imagem</title>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/stylesheet.css') }}">
+</head>
+<body>
+  <h1>Placa Solar Suja?</h1>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="arquivo">Escollha a imagem</label>
+    <input id="arquivo" type="file" name="imagem" accept="image/*">
+    <button class="button-85" role="button" type="submit">Enviar</button>
+  </form>
+  <h2>Resultado:</h2>
+  <p id="resultado"></p>
+
+  <script>
+    // Manipular o resultado da solicitação AJAX e atualizar o conteúdo da página
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      document.getElementById('resultado').textContent = data.resultado;
+    });
+  </script>
+
+</body>
+</html>
